@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM+Agent+MCP 机器人自然语言控制系统
-# 改造说明: 将车载媒体控制场景改造为具身机器人控制场景
-# 支持平台: Unitree Go2四足机器人 / 人形机器人 / ROS通用接口
-# --------------------------------------------
 
 tools1 = [
-    # ===== 移动控制意图 =====
+    # Motion control
     {
         "type": "function",
         "function": {
@@ -67,7 +62,7 @@ tools1 = [
         }
     },
 
-    # ===== 操作臂控制意图 =====
+    # Manipulation
     {
         "type": "function",
         "function": {
@@ -126,7 +121,7 @@ tools1 = [
         }
     },
 
-    # ===== 感知与状态查询意图 =====
+    # Perception and status
     {
         "type": "function",
         "function": {
@@ -167,7 +162,7 @@ tools1 = [
         }
     },
 
-    # ===== 任务规划意图 =====
+    # Tasks and return-to-base
     {
         "type": "function",
         "function": {
@@ -207,7 +202,7 @@ tools1 = [
         }
     },
 
-    # ===== ROS接口意图 =====
+    # ROS bridge
     {
         "type": "function",
         "function": {
@@ -232,8 +227,7 @@ tools1 = [
 ]
 
 
-# ===== 意图分类 =====
-# 对应原项目的意图标签，改为机器人控制场景
+# High-level intent groups (robot control)
 INTENT_LABELS = {
     "NAVIGATION": ["Navigate_To_Location", "Stop_Movement", "Return_To_Base"],
     "LOCOMOTION": ["Execute_Gait_Mode"],
@@ -242,7 +236,7 @@ INTENT_LABELS = {
     "TASK": ["Execute_Task_Sequence", "Publish_ROS_Command"],
 }
 
-# ===== 示例对话（用于调试和演示）=====
+# Example utterances for debugging
 EXAMPLE_DIALOGS = [
     {"user": "去充电站充电", "intent": "NAVIGATION", "function": "Return_To_Base", "args": {"Mode": "charge"}},
     {"user": "慢慢走到工作台旁边", "intent": "NAVIGATION", "function": "Navigate_To_Location", "args": {"Target_Location": "工作台", "Speed_Mode": "slow"}},

@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import asyncio
 import os
@@ -15,24 +10,24 @@ from openai import OpenAI
 
 class MCPClient:
     def __init__(self):
-        """初始化 MCP 客户端"""
+        """Create MCP client state."""
         self.exit_stack = AsyncExitStack()
         self.session: Optional[Any] = None
 
     async def connect_to_server(self, server_script_path: str):
-        """连接到 MCP 服务器并列出可用工具"""
+        """Connect to MCP server over stdio and list tools."""
         try:
             from mcp import ClientSession, StdioServerParameters
             from mcp.client.stdio import stdio_client
         except ImportError as e:
             raise ImportError(
-                "未安装 mcp 或 Python 版本过低。mcp 需要 Python>=3.10，请先升级 Python 后执行: pip install mcp"
+                "Package `mcp` missing or Python too old; need Python>=3.10. Run: pip install mcp"
             ) from e
 
         is_python = server_script_path.endswith('.py')
         is_js = server_script_path.endswith('.js')
         if not (is_python or is_js):
-            raise ValueError("服务器脚本必须是 .py 或 .js 文件")
+            raise ValueError("Server script must be .py or .js")
 
         command = "python" if is_python else "node"
         server_params = StdioServerParameters(
@@ -41,17 +36,17 @@ class MCPClient:
             env=None
         )
 
-        # 启动 MCP 服务器并建立通信
+        # Start MCP server subprocess and stdio transport
         stdio_transport = await self.exit_stack.enter_async_context(stdio_client(server_params))
         self.stdio, self.write = stdio_transport
         self.session = await self.exit_stack.enter_async_context(ClientSession(self.stdio, self.write))
 
         await self.session.initialize()
 
-        # 列出 MCP 服务器上的工具
+        # List tools from server
         response = await self.session.list_tools()
         tools = response.tools
-        print("\n已连接到服务器，支持以下工具:", [tool.name for tool in tools])     
+        print("\nConnected; tools:", [tool.name for tool in tools])     
         
 
     async def process_query(self, query: str) -> str:
@@ -59,22 +54,22 @@ class MCPClient:
             
     
     async def execute(self, function_name, tool_args):
-        print("\n🤖 MCP 客户端已启动")
+        print("\nMCP client running")
 
         try:
-            # 执行工具
+            # Call tool by name
             result = await self.session.call_tool(function_name, tool_args)
             print(f"\n\n[Calling tool with args {tool_args}]\n\n")
             print(f"\n🤖 MCP Response: {result.content[0].text}")
             return result.content[0].text
 
         except Exception as e:
-            print(f"\n⚠️ 发生错误: {str(e)}")
+            print(f"\nError: {str(e)}")
             return "Not Find"
 
 
     async def cleanup(self):
-        """清理资源"""
+        """Close stdio session and subprocess."""
         await self.exit_stack.aclose()
 
 

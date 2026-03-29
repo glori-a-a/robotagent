@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import json
 
@@ -53,7 +48,7 @@ def intent_slot(function, map_intent, slot_map):
         predict_z = map_intent.get(predict_e, predict_e)
         slots_predict = function[0].get("function", {}).get("arguments", "{}")
         slots_predict = json.loads(slots_predict)
-        # 先做槽位名的转换
+        # Map LLM slot keys to internal names
         result = predict_z + "-"
         slot_lst = []
         dict_slot = slot_map.get(predict_e)

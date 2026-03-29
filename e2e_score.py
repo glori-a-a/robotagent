@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
-"""计算任务型对话agent端到端准确率得分
-"""
+"""End-to-end scoring helper for multi-turn test logs."""
 
 import json
 fd = open("test/result/multi_test_output.txt")
@@ -21,9 +15,7 @@ for line in fd:
             res += msg["intent"] + "\t" + json.dumps(msg["slots"], ensure_ascii=False)
     print(query + "############" + res)
 
-# 对输出结果进行标注, 需要考虑输出质量，500条多轮case需人工check，约20min
-
-# 对标注后的结果进行统计
+# Label multi_test_output.txt by hand, then run this block for accuracy.
 print("\n" + "="*50)
 with open("test/result/multi_test_output_labeled.txt") as file_handler:
     right, total = 0, 0
@@ -31,5 +23,5 @@ with open("test/result/multi_test_output_labeled.txt") as file_handler:
         if line.startswith("1"):
             right += 1
         total += 1
-    print("端到端准确率：{}%".format(round(right/total * 100, 3)))
+    print("E2E accuracy: {}%".format(round(right/total * 100, 3)))
 print("="*50)

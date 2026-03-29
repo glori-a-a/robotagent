@@ -1,9 +1,4 @@
 # -*- coding:utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import os
 import sys
@@ -29,17 +24,17 @@ load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
 from utils import logger
 
 
-## 创建FastAPI应用
+# FastAPI intent (BERT top-k) service
 app = FastAPI()
 
 
-dataset = "intent" # 数据
-model_name = "bert"  # 模型
+dataset = "intent"
+model_name = "bert"
 x = import_module('models.' + model_name)
 config = x.Config(dataset)
 if not os.path.isfile(config.save_path):
     raise FileNotFoundError(
-        "模型文件不存在: {}\n请在项目根目录执行: python train/run.py --model bert --data intent".format(
+        "Model checkpoint missing: {}\nFrom repo root run: python train/run.py --model bert --data intent".format(
             config.save_path
         )
     )
@@ -97,4 +92,4 @@ async def inference(request: Request):
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8008, workers=1)  # 在指定端口和主机上启动应用
+    uvicorn.run(app, host='0.0.0.0', port=8008, workers=1)

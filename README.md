@@ -154,19 +154,3 @@ $env:PYTHONPATH = (Get-Location).Path
 Then open `results/report.html` in a browser. Optional: `.\.venv\Scripts\python.exe scripts/build_results_report.py` to refresh only the HTML.
 
 **Shortcut:** from repo root, `.\start_windows.bat` starts the four processes in separate windows (still need Redis and `.env` first).
-
----
-
-## What to screenshot for a report
-
-1. The four service consoles (or `start_windows.bat` windows) showing processes running.  
-2. Browser or terminal output of `GET http://127.0.0.1:8080/health`.  
-3. `dialog.py` session with at least one query and JSON responses.  
-4. Full page of `results/report.html` after running the collector.  
-5. Optional: this README on GitHub with diagrams rendered.
-
-Do not capture `.env` or API keys. Extra diagrams: `STRUCTURE.md`.
-
----
-
-Do not commit `.env` or large checkpoints; see `.gitignore`.

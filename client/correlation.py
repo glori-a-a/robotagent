@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import requests
 import json
@@ -66,7 +61,7 @@ def request_correlation(query, sender_id):
         if answer != "是":
             answer = "否"
 
-        logger.info(f"相关性LLM判定结果: {answer}")
+        logger.info(f"correlation LLM answer: {answer}")
         return answer
 
     except Exception:
@@ -77,7 +72,7 @@ def request_correlation(query, sender_id):
 if __name__ == "__main__":
     sender_id = "123"
     while True:
-        query = input("输入：")
+        query = input("Query: ")
         res = request_correlation(query, sender_id)
         print(res)
 

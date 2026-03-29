@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import json
 import os
@@ -24,7 +19,7 @@ async def process(func_name, query, slots):
     if func_name not in ["Go_POI"]:
         return
 
-    # 调用MCP接口
+    # MCP-backed implementation
         slots["date"] = datetime.now().strftime("%Y-%m-%d")
     
     formated_slots = {}

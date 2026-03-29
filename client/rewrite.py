@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import os
 import json
@@ -61,7 +56,7 @@ def request_rewrite(query, last_answer, sender_id):
         history_msgs = "\n".join(history_msgs)
 
         prompt = "#对话历史#\n{}\nA：{}\n".format(history_msgs, query)
-        logger.info(f"对话历史：{prompt}")
+        logger.info(f"rewrite prompt: {prompt}")
         messages_now = [
             {"role": "user", "content": prompt}
         ]
@@ -83,14 +78,14 @@ def request_rewrite(query, last_answer, sender_id):
         res = json.loads(res)
         result = res['choices'][0]['message']['content']
 
-        # 防止误改
+        # Reject rewrite if output shares too few chars with query
         if len(set(result).intersection(query)) < len(query) / 4:
             result = "否"
 
     if result == "否":
         result = query
 
-    logger.info("改写后：{}".format(result))
+    logger.info("rewrite result: {}".format(result))
 
     history.append({"role": "user", "content": result})
     history.append({"role": "assistant", "content": ""})

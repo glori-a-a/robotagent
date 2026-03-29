@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 
 import json
@@ -18,7 +13,7 @@ async def process(func_name, query, slots):
     if func_name not in ["Search_Music"]:
         return
 
-    # 调用MCP接口
+    # MCP-backed implementation
     if not slots:
         slots["genre"] = "流行"
 

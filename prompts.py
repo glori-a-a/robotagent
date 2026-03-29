@@ -1,7 +1,4 @@
-# --------------------------------------------
-# 项目名称: LLM+Agent 机器人自然语言操控（与 function.py / class.txt 对齐）
-# --------------------------------------------
-
+# Prompts for arbitration, rewrite, correlation, NLG, chat, and tool-matching NLU.
 
 ARBITRAION_SYSTEM_PROMPT = """# Role: 具身机器人语音/文本意图仲裁专家
 

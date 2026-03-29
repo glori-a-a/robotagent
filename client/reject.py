@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import json
 import requests
@@ -34,7 +29,7 @@ def request_reject(query, trace_id):
         )
         res = response.json()
         text = res["data"]
-        logger.info(f"拒识模型的输出：{text}")
+        logger.info(f"reject model output: {text}")
     except Exception as e:
         logger.error(f"call reject failed:{e}")
         text = "是"

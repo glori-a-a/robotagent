@@ -1,9 +1,5 @@
 # -*- coding:utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
+
 import sys
 import os
 
@@ -37,10 +33,10 @@ def train(config, model, train_iter, dev_iter, test_iter):
                          warmup=0.05,
                          t_total=len(train_iter) * config.num_epochs)
 
-    total_batch = 1  # 记录进行到多少batch
+    total_batch = 1  # global batch counter
     dev_best_loss = float('inf')
-    last_improve = 0  # 记录上次验证集loss下降的batch数
-    flag = False  # 记录是否很久没有效果提升
+    last_improve = 0  # batch index when dev loss last improved
+    flag = False  # early-stop triggered
     model.train()
     for epoch in range(config.num_epochs):
         logger.info('Epoch [{}/{}]'.format(epoch + 1, config.num_epochs))
@@ -53,7 +49,7 @@ def train(config, model, train_iter, dev_iter, test_iter):
             if total_batch  % 100 == 0:
                 if config.device.type == "cuda":
                     torch.cuda.empty_cache()
-                # 每多少轮输出在训练集和验证集上的效果
+                # Periodic train/val metrics
                 true = labels.data.cpu()
                 predic = torch.max(outputs.data, 1)[1].cpu()
                 train_acc = metrics.accuracy_score(true, predic)
@@ -71,13 +67,13 @@ def train(config, model, train_iter, dev_iter, test_iter):
                 model.train()
             total_batch += 1
             if total_batch - last_improve > config.require_improvement:
-                # 早停止
+                # Early stopping
                 logger.info("No optimization for a long time, auto-stopping...")
                 flag = True
                 break
         if flag:
             break
-        # 训练集很小时可能整轮都不触发 total_batch % 100，每个 epoch 末补一次验证与保存
+        # Small datasets may skip %100 logs; validate and save at each epoch end
         if config.device.type == "cuda":
             torch.cuda.empty_cache()
         dev_acc, dev_loss = evaluate(config, model, dev_iter)

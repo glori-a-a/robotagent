@@ -1,9 +1,4 @@
 # -*- coding:utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 """
     usage: python run.py --model bert --data intent
@@ -31,13 +26,13 @@ def resolve_device(mode: str, gpu_id: int) -> torch.device:
     if mode == "cuda":
         if not torch.cuda.is_available():
             raise RuntimeError(
-                "已指定 --device cuda，但当前 PyTorch 未检测到 CUDA。\n"
-                "请安装 GPU 版 PyTorch（与本机驱动匹配的 CUDA 轮子），例如：\n"
+                "--device cuda was set but PyTorch does not see CUDA.\n"
+                "Install a GPU build that matches your driver, e.g.:\n"
                 "  pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124"
             )
         if gpu_id < 0 or gpu_id >= torch.cuda.device_count():
             raise RuntimeError(
-                "无效的 --gpu %s，当前可见 GPU 数量: %s"
+                "Invalid --gpu %s; visible GPU count: %s"
                 % (gpu_id, torch.cuda.device_count())
             )
         return torch.device("cuda:%d" % gpu_id)

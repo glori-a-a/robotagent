@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import json
 import requests
@@ -32,7 +27,7 @@ def request_nlu(query, trace_id, enable_dm=True):
             data=payload
         )
         res = response.json()
-        logger.info(f"NLU模型的输出：{res}")
+        logger.info(f"NLU service response: {res}")
     except Exception as e:
         logger.error(f"call NLU failed:{e}")
         res = {}

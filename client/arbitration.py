@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import time
 import json
@@ -62,7 +57,7 @@ def request_arbitration(query, sender_id):
             stream=True,
             timeout=TIMEOUT
         )
-        # 拼接完整回复后再取 A/B/C/D；仅读首个 delta 易拿到空串并错误落到默认 A（任务域）
+        # Accumulate full reply before parsing A/B/C/D; first delta alone is often empty.
         pieces = []
         for r in response.iter_lines(
                 chunk_size=CHUNK_SIZE, decode_unicode=False, delimiter=b'\n'):
@@ -84,7 +79,7 @@ def request_arbitration(query, sender_id):
         raw = "".join(pieces).strip()
         upper = raw.upper()
         candidates = re.findall(r"[ABCD]", upper)
-        # 取最后一个字母：模型偶有多余前缀时，结论多在末尾；避免英文词里抢先匹配到 A
+        # Use last letter: model may prefix text; avoids matching A inside English words.
         text = candidates[-1] if candidates else ""
         logger.info(
             f"Arbitration history: {history}, query:{query}, raw:{raw!r}, letter:{text!r}, cost time:{time.time() - start_time}")
@@ -111,7 +106,7 @@ def request_arbitration(query, sender_id):
 
 if __name__ == '__main__':
     while True:
-        query = input("输入:")
+        query = input("Query: ")
         res = request_arbitration(query, "131")
         print(res)
 

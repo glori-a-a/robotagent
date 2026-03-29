@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 
 import json
@@ -68,7 +63,7 @@ def check():
 def connected_msg():
     manager = socketio.server.manager
     connections_count = len(manager.rooms['/']) - 1
-    logger.info(f'当前连接数: {connections_count}')
+    logger.info(f"Active connections: {connections_count}")
     logger.info('client connected.')
 
 
@@ -102,12 +97,12 @@ def send_msg(nlu_result, func, frame, seq, cost, status):
 
 def handle_chat(handler_bot, nlu_result, query, sender_id, begin):
 
-    # 开始帧
+    # Begin frame
     seq = 1
     nlu_result_begin = copy.deepcopy(nlu_result)
     send_msg(nlu_result_begin, "CHAT", "", seq, time.time() - begin, status=0)
 
-    # 中间帧
+    # Streaming chunks
     full_answer = ""
     for value in process_chat(handler_bot.result(), query, sender_id):
         nlu_result_chat = copy.deepcopy(nlu_result)
@@ -116,7 +111,7 @@ def handle_chat(handler_bot, nlu_result, query, sender_id, begin):
         full_answer += value
         logger.info(f"Chat Frame:{seq},content:{value}")
 
-    # 结束帧
+    # End frame
     if seq > 1:
         nlu_result_end = copy.deepcopy(nlu_result)
         send_msg(nlu_result_end, "CHAT", "", seq, time.time() - begin, status=2)
@@ -156,25 +151,25 @@ def inference(req):
         if last_info:
             last_domain, last_query, last_reject, last_answer = last_info.split("#")
 
-        # Query改写
+        # Query rewrite
         query = request_rewrite(query, last_answer, sender_id)
 
-        # 调用nlu语义
+        # NLU (tool/slot) service
         handler_nlu = thread_pool.submit(request_nlu, query, trace_id, enable_dm)
 
-        # 调用仲裁
+        # Arbitration LLM
         handler_arbitration = thread_pool.submit(request_arbitration, ori_query, sender_id)
 
-        # 调拒识模型
+        # Reject classifier
         handler_reject = thread_pool.submit(request_reject, query, trace_id)
 
-        # 调用相关性模型
+        # Utterance correlation LLM
         handler_correlation = thread_pool.submit(request_correlation, ori_query, sender_id)
 
-        # 调用百科闲聊
+        # Chat LLM (fallback)
         handler_bot = thread_pool.submit(request_chat, ori_query, sender_id)
 
-        # 获取仲裁结果
+        # Arbitration label
         arbitration_result = handler_arbitration.result()
         if _STOP_CMD_RE.match((ori_query or "").strip()):
             arbitration_result = "task"
@@ -182,12 +177,12 @@ def inference(req):
         logger.info(
             f"TraceID:{trace_id}, query:{query}, arbitration result: {arbitration_result}, cost time: {time.time() - begin}")
 
-        # 开始仲裁：任务域且 NLU 有明确 function 才走技能；否则与闲聊域一样走拒识+闲聊兜底
+        # Task path: emit tool call only if NLU returns a real function; else same as chat path (reject + chat).
         task_emitted = False
         if arbitration_result == "task":
             nlu_result = handler_nlu.result() or {}
             func_name = (nlu_result.get("function") or "").strip()
-            # NLU 失败或空返回时为 {}，不能用 "" not in ["Unknown"]（会为 True 误发空包）
+            # Empty NLU is {}; do not treat "" as a valid function (would wrongly emit).
             if func_name and func_name not in ["Unknown"]:
                 redis_client.set(REDIS_KEY.format(sender_id), f"SKILL#{query}#1#", ex=TTL)
                 emit(
@@ -204,7 +199,7 @@ def inference(req):
                     f"Task path but NLU has no callable function ({func_name!r}), fallback to reject/chat."
                 )
         if not task_emitted:
-            # 拒识
+            # Reject branch
             reject_result = handler_reject.result()
             if reject_result == 0:
                 correlation_result = handler_correlation.result()
@@ -216,7 +211,7 @@ def inference(req):
                 send_msg(nlu_template, "REJECT", "", 1, time.time() - begin, status=-1)
                 logger.info(f"Query {query} has been rejected.")
             else:
-                # 百科闲聊兜底
+                # Fallback to open chat
                 is_hit_chat, full_answer = handle_chat(handler_bot, nlu_template, ori_query, sender_id, begin)
                 if is_hit_chat:
                     redis_client.set(REDIS_KEY.format(sender_id), f"CHAT#{query}#{reject_result}#{full_answer}", ex=TTL)

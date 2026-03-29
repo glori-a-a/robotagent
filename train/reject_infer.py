@@ -33,7 +33,7 @@ x = import_module('models.' + model_name)
 config = x.Config(dataset)
 if not os.path.isfile(config.save_path):
     raise FileNotFoundError(
-        "模型文件不存在: {}\n请在项目根目录执行: python train/run.py --model bert --data reject".format(
+        "Model checkpoint missing: {}\nFrom repo root run: python train/run.py --model bert --data reject".format(
             config.save_path
         )
     )

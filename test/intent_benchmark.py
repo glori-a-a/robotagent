@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 """
-运行命令：
-locust -f intent_benchmark.py  --host http://127.0.0.1:8008  --headless -u 1000 -r 100 -t 60s
+Example:
+locust -f intent_benchmark.py --host http://127.0.0.1:8008 --headless -u 1000 -r 100 -t 60s
 """
 
 import random

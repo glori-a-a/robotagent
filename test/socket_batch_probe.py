@@ -58,7 +58,7 @@ def main():
             sio.connect(URL, wait_timeout=20)
         except Exception as e:
             print(f"CONNECT FAIL ({URL}): {e}")
-            print("请先启动 Redis、8007/8008/8009 与 python start.py")
+            print("Start Redis, services 8007/8008/8009, and python start.py first.")
             return 1
 
         sio.emit(

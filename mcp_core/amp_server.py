@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import os
 from typing import Any, Dict, List, Optional
@@ -133,7 +128,7 @@ def maps_weather(city: str, date: str) -> Dict[str, Any]:
             if forecast["date"] != date:
                 continue
             for key, name in {
-                # "date": "日期",
+                # "date": "date",
                 "dayweather": "天气",
                 "daytemp": "温度",
                 "daywind": "风向",

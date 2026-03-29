@@ -1,9 +1,4 @@
 # -*- coding:utf-8 -*-
-# --------------------------------------------
-# 项目名称: LLM任务型对话Agent
-# 版权所有  ©2025丁师兄大模型
-# 生成时间: 2025-05
-# --------------------------------------------
 
 import torch
 from tqdm import tqdm
@@ -11,7 +6,7 @@ import time
 from datetime import timedelta
 
 
-PAD, CLS = '[PAD]', '[CLS]'  # padding符号, bert中综合信息符号
+PAD, CLS = '[PAD]', '[CLS]'  # pad token; BERT CLS
 
 
 def build_dataset(config):
@@ -52,7 +47,7 @@ class DatasetIterater(object):
         self.batches = batches
         n = len(batches)
         self.n_batches = n // batch_size
-        # 样本少于 batch_size 时 n_batches==0，仍需一批；且不可对 0 取模
+        # If n < batch_size, still need one batch; avoid modulo by zero
         self.residue = (n % batch_size != 0) if n > 0 else False
         self.index = 0
         self.device = device
@@ -61,7 +56,7 @@ class DatasetIterater(object):
         x = torch.LongTensor([_[0] for _ in datas]).to(self.device)
         y = torch.LongTensor([_[1] for _ in datas]).to(self.device)
 
-        # pad前的长度(超过pad_size的设为pad_size)
+        # True sequence length before pad (capped at pad_size)
         seq_len = torch.LongTensor([_[2] for _ in datas]).to(self.device)
         mask = torch.LongTensor([_[3] for _ in datas]).to(self.device)
         return (x, seq_len, mask), y
@@ -98,7 +93,7 @@ def build_iterator(dataset, config):
 
 
 def get_time_dif(start_time):
-    """获取已使用时间"""
+    """Elapsed time since start_time as timedelta."""
     end_time = time.time()
     time_dif = end_time - start_time
     return timedelta(seconds=int(round(time_dif)))

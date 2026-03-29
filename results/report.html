@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>Robot agent — run report</title>
+<style>
+body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 56rem; }
+h1 { font-size: 1.25rem; }
+h2 { font-size: 1rem; margin-top: 2rem; border-bottom: 1px solid #ccc; }
+table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+th, td { border: 1px solid #ddd; padding: 0.35rem 0.5rem; text-align: left; vertical-align: top; }
+th { background: #f4f4f4; }
+pre { background: #f8f8f8; padding: 1rem; overflow: auto; font-size: 0.85rem; }
+.note { color: #555; font-size: 0.9rem; margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+<h1>Robot NLU agent — captured Socket.IO payloads</h1>
+<p class="note">Open this file in a browser (double-click). Use Win+Shift+S or your OS screenshot tool to capture this page for your report.</p>
+<h2>Summary</h2>
+<pre>Q: 你好
+  frames: 11 last_function=None
+  chat_preview: &#x27;你好，欢迎使用机器人对话助手，我可以帮助你与机器人进行交互，请问你需要什么帮助？&#x27;
+Q: 导航去充电站
+  frames: 1 last_function=&#x27;Navigate_To_Location&#x27;
+Q: 停下
+  frames: 1 last_function=&#x27;Stop_Movement&#x27;
+Q: 怎么抓取易碎物品
+  frames: 18 last_function=None
+  chat_preview: &#x27;抓取易碎物品时应使用精细抓取模式，并减小机械臂的速度与力度以避免碰撞或施加过大压力。建议通过ROS控制界面调整参数以实现安全抓取。同时，请确保机械臂的末端执行器具备精细运动能力。&#x27;
+Q: 扫描一下周围环境
+  frames: 1 last_function=&#x27;Scan_Environment&#x27;
+Wrote samples.jsonl (5 queries).
+</pre>
+<h2>Query: 你好</h2><table><tr><th>#</th><th>intent</th><th>function</th><th>func</th><th>status</th><th>frame (preview)</th></tr><tr><td>0</td><td>闲聊百科</td><td></td><td>CHAT</td><td>0</td><td></td></tr><tr><td>1</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>你好，</td></tr><tr><td>2</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>欢迎使用机</td></tr><tr><td>3</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>器人对话助</td></tr><tr><td>4</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>手，我</td></tr><tr><td>5</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>可以帮助你与</td></tr><tr><td>6</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>机器人进行交</td></tr><tr><td>7</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>互，请</td></tr><tr><td>8</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>问你需要什么</td></tr><tr><td>9</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>帮助？</td></tr><tr><td>10</td><td>闲聊百科</td><td></td><td>CHAT</td><td>2</td><td></td></tr></table><h2>Query: 导航去充电站</h2><table><tr><th>#</th><th>intent</th><th>function</th><th>func</th><th>status</th><th>frame (preview)</th></tr><tr><td>0</td><td>导航到位置</td><td>Navigate_To_Location</td><td></td><td></td><td></td></tr></table><h2>Query: 停下</h2><table><tr><th>#</th><th>intent</th><th>function</th><th>func</th><th>status</th><th>frame (preview)</th></tr><tr><td>0</td><td>停止运动</td><td>Stop_Movement</td><td></td><td></td><td></td></tr></table><h2>Query: 怎么抓取易碎物品</h2><table><tr><th>#</th><th>intent</th><th>function</th><th>func</th><th>status</th><th>frame (preview)</th></tr><tr><td>0</td><td>闲聊百科</td><td></td><td>CHAT</td><td>0</td><td></td></tr><tr><td>1</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>抓取易碎物</td></tr><tr><td>2</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>品时应使用精</td></tr><tr><td>3</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>细抓取模式，并</td></tr><tr><td>4</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>减小机械臂</td></tr><tr><td>5</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>的速度与力度</td></tr><tr><td>6</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>以避免碰撞</td></tr><tr><td>7</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>或施加过大</td></tr><tr><td>8</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>压力。</td></tr><tr><td>9</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>建议通过ROS控制</td></tr><tr><td>10</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>界面调整参数以</td></tr><tr><td>11</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>实现安全抓取。</td></tr><tr><td>12</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>同时，请</td></tr><tr><td>13</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>确保机械臂</td></tr><tr><td>14</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>的末端执行器</td></tr><tr><td>15</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>具备精细运动</td></tr><tr><td>16</td><td>闲聊百科</td><td></td><td>CHAT</td><td>1</td><td>能力。</td></tr><tr><td>17</td><td>闲聊百科</td><td></td><td>CHAT</td><td>2</td><td></td></tr></table><h2>Query: 扫描一下周围环境</h2><table><tr><th>#</th><th>intent</th><th>function</th><th>func</th><th>status</th><th>frame (preview)</th></tr><tr><td>0</td><td>环境感知</td><td>Scan_Environment</td><td></td><td></td><td></td></tr></table>
+</body>
+</html>

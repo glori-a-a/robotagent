@@ -1,0 +1,13 @@
+Q: 你好
+  frames: 11 last_function=None
+  chat_preview: '你好，欢迎使用机器人对话助手，我可以帮助你与机器人进行交互，请问你需要什么帮助？'
+Q: 导航去充电站
+  frames: 1 last_function='Navigate_To_Location'
+Q: 停下
+  frames: 1 last_function='Stop_Movement'
+Q: 怎么抓取易碎物品
+  frames: 18 last_function=None
+  chat_preview: '抓取易碎物品时应使用精细抓取模式，并减小机械臂的速度与力度以避免碰撞或施加过大压力。建议通过ROS控制界面调整参数以实现安全抓取。同时，请确保机械臂的末端执行器具备精细运动能力。'
+Q: 扫描一下周围环境
+  frames: 1 last_function='Scan_Environment'
+Wrote samples.jsonl (5 queries).

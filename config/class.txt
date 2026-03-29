@@ -1,0 +1,6 @@
+0:导航到位置:Navigate_To_Location
+1:抓取放置:Grasp_Object
+2:步态控制:Execute_Gait_Mode
+3:环境感知:Scan_Environment
+4:任务执行:Execute_Task_Sequence
+5:未知:Unknown

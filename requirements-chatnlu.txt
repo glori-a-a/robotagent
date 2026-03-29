@@ -1,0 +1,21 @@
+# chatnlu_infer.py - dependency bundle (smaller than root requirements.txt)
+#
+# REQUIRES PYTHON 3.9 OR NEWER (3.10+ recommended for optional "pip install mcp").
+# Python 3.7 / 3.8 cannot install starlette>=0.40; use a newer Python from python.org
+#
+# After installing Python 3.10+, from this folder run:
+#   py -3.10 -m pip install -r requirements-chatnlu.txt
+#   py -3.10 -m pip install mcp
+#
+# Install:
+#   python -m pip install -r requirements-chatnlu.txt
+
+python-dotenv
+numpy
+requests
+uvicorn
+starlette>=0.40.0,<0.47.0
+fastapi==0.115.12
+sinan==0.1.5
+openai
+qqmusic-api-python==0.3.4
